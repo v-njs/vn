@@ -1,0 +1,22 @@
+{
+  "name": "vn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --cache --ext .js,.ts,.tsx",
+    "format": "prettier --write --cache ."
+  },
+  "keywords": [],
+  "author": "bsuooo",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "typescript": "^5.1.3"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@web": ["packages/web/src"],
+      "@server": ["packages/server/src"]
+    }
+  }
+}
