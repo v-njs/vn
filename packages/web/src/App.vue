@@ -14,6 +14,7 @@ const a = 1;
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+  {{ a }}
 </template>
 
 <style scoped>
