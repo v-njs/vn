@@ -4,11 +4,13 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "dev": "vite --host",
+    "build:test": "vue-tsc && vite build --test",
+    "build:prod": "vue-tsc && vite build --production",
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.6.7",
     "vue": "^3.4.15"
   },
   "devDependencies": {
