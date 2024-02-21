@@ -11,7 +11,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,vue}": [
-      "echo 'lint or prettier'",
+      "echo 'lint and prettier'",
       "eslint --ext .js,.ts,.tsx,.vue --fix",
       "prettier --write"
     ]
