@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "web": "pnpm -F web dev",
+    "serve": "pnpm -F server start:dev",
     "lint": "eslint --cache --ext .js,.ts,.tsx,.vue --fix",
     "format": "prettier --write --cache .",
     "prepare": "husky install",
