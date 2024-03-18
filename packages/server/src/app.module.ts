@@ -6,9 +6,18 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { Role } from './user/entities/role.entity';
 import { Permission } from './user/entities/permission.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { LoginGuard } from './login.guard';
 
 @Module({
   imports: [
+    JwtModule.register({
+      global: true,
+      secret: 'vn',
+      signOptions: {
+        expiresIn: '7d',
+      },
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -31,6 +40,12 @@ import { Permission } from './user/entities/permission.entity';
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'APP_GUARD',
+      useClass: LoginGuard,
+    },
+  ],
 })
 export class AppModule {}

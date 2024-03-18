@@ -89,6 +89,10 @@ export class UserService {
     await this.entityManager.save(User, [user1, user2]);
   }
 
+  async findById(id: number) {
+    return await this.entityManager.findOneBy(User, { id });
+  }
+
   async login(loginUserDto: UserLoginDto) {
     const user = await this.entityManager.findOne(User, {
       where: {
