@@ -22,6 +22,11 @@ export class Permission {
   })
   desc: string;
 
+  @Column({
+    length: 5,
+  })
+  delFlag: string;
+
   @CreateDateColumn()
   createTime: Date;
 

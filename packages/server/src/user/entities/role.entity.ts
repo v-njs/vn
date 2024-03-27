@@ -19,6 +19,11 @@ export class Role {
   })
   name: string;
 
+  @Column({
+    length: 5,
+  })
+  delFlag: string;
+
   @CreateDateColumn()
   createTime: Date;
 

@@ -24,6 +24,11 @@ export class User {
   })
   password: string;
 
+  @Column({
+    length: 5,
+  })
+  delFlag: string;
+
   @CreateDateColumn()
   createTime: Date;
 

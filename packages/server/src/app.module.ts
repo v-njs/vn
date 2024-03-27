@@ -23,7 +23,7 @@ import { LoginGuard } from './login.guard';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '0000',
+      password: '000000',
       database: 'vn',
       // 同步建表
       synchronize: true,
