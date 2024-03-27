@@ -6,11 +6,15 @@ import {
   Inject,
   Query,
   UnauthorizedException,
+  Session,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { UserService } from './user.service';
 import { UserLoginDto } from './dto/user-login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { NoHaveLogin } from '../custom-decorator';
+import * as svgCaptcha from 'svg-captcha';
 
 @Controller('user')
 export class UserController {
@@ -100,5 +104,17 @@ export class UserController {
     } catch (error) {
       throw new UnauthorizedException('token 已失效，请重新登录');
     }
+  }
+
+  @Get('captcha')
+  @NoHaveLogin()
+  async captcha(@Session() session: Record<string, any>, @Res() res: Response) {
+    const captcha = svgCaptcha.createMathExpr({
+      size: 10,
+    });
+    session.captcha = captcha.text;
+    res.type('svg');
+    res.send(captcha.data);
+    return res;
   }
 }

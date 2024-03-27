@@ -38,8 +38,6 @@ export class LoginGuard implements CanActivate {
       throw new UnauthorizedException('用户未登录');
     }
 
-    console.log(authorization);
-
     try {
       const token = authorization.split(' ')[1];
       const data = this.jwtService.verify(token);

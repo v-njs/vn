@@ -21,14 +21,10 @@ export class Menu {
   })
   menuCode: string;
 
-  @Column({
-    length: 10,
-  })
+  @Column({})
   parentId: number;
 
-  @Column({
-    length: 10,
-  })
+  @Column({})
   order: number;
 
   @Column({

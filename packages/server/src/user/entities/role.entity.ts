@@ -8,6 +8,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Permission } from './permission.entity';
+import { Menu } from './menu.entity';
 
 @Entity()
 export class Role {
@@ -35,4 +36,10 @@ export class Role {
     name: 'role_permission_relation',
   })
   permissions: Permission[];
+
+  @ManyToMany(() => Menu)
+  @JoinTable({
+    name: 'role_menu_relation',
+  })
+  menu: Menu[];
 }

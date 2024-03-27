@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { Role } from './user/entities/role.entity';
 import { Permission } from './user/entities/permission.entity';
+import { Menu } from './user/entities/menu.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { LoginGuard } from './login.guard';
 
@@ -31,7 +32,7 @@ import { LoginGuard } from './login.guard';
       logging: true,
       // 数据库连接池中连接的最大数量
       poolSize: 10,
-      entities: [User, Role, Permission],
+      entities: [User, Role, Permission, Menu],
       connectorPackage: 'mysql2',
       extra: {
         authPlugins: 'sha256_password',
