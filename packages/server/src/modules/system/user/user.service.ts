@@ -1,12 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
-import { Role } from './entities/role.entity';
-import { Permission } from './entities/permission.entity';
+import { Role } from '../role/entities/role.entity';
+import { Permission } from '../../auth/entities/permission.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { UserLoginDto } from './dto/user-login.dto';
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
-import { HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -87,34 +84,5 @@ export class UserService {
     await this.entityManager.save(Role, [role1, role2]);
 
     await this.entityManager.save(User, [user1, user2]);
-  }
-
-  async findById(id: number) {
-    return await this.entityManager.findOneBy(User, { id });
-  }
-
-  async login(loginUserDto: UserLoginDto, captcha: string) {
-    if (loginUserDto.captcha !== captcha) {
-      throw new HttpException('验证码错误', HttpStatus.ACCEPTED);
-    }
-
-    const user = await this.entityManager.findOne(User, {
-      where: {
-        username: loginUserDto.username,
-      },
-      relations: {
-        roles: true,
-      },
-    });
-
-    if (!user) {
-      throw new HttpException('用户不存在', HttpStatus.ACCEPTED);
-    }
-
-    if (user.password !== loginUserDto.password) {
-      throw new HttpException('密码错误', HttpStatus.ACCEPTED);
-    }
-
-    return user;
   }
 }

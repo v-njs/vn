@@ -40,8 +40,7 @@ export class LoginGuard implements CanActivate {
 
     try {
       const token = authorization.split(' ')[1];
-      const data = this.jwtService.verify(token);
-      console.log(data);
+      this.jwtService.verify(token);
 
       return true;
     } catch (e) {

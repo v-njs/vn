@@ -1,32 +1,41 @@
 import {
   Controller,
   Get,
+  Res,
   Post,
   Body,
   Inject,
   Query,
   UnauthorizedException,
   Session,
-  Res,
 } from '@nestjs/common';
+import { AuthService } from './auth.service';
 import { Response } from 'express';
-import { UserService } from './user.service';
-import { UserLoginDto } from './dto/user-login.dto';
-import { JwtService } from '@nestjs/jwt';
-import { NoHaveLogin } from '../custom-decorator';
 import * as svgCaptcha from 'svg-captcha';
+import { NoHaveLogin } from '../../common/decorator/custom-decorator';
+import { JwtService } from '@nestjs/jwt';
+import { UserLoginDto } from './dto/user-login.dto';
 
-@Controller('user')
-export class UserController {
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
   @Inject(JwtService)
   private readonly jwtService: JwtService;
 
-  constructor(private readonly userService: UserService) {}
-
-  @Get('init')
-  async initData() {
-    await this.userService.initData();
-    return '初始化成功';
+  @Get('captcha')
+  @NoHaveLogin()
+  async captcha(@Session() session: Record<string, any>, @Res() res: Response) {
+    const captcha = svgCaptcha.createMathExpr({
+      size: 10,
+      background: '#1e80ff',
+      color: true,
+      noise: 3,
+    });
+    session.captcha = captcha.text;
+    res.type('svg');
+    res.send(captcha.data);
+    return res;
   }
 
   @Post('login')
@@ -39,7 +48,7 @@ export class UserController {
     const captcha = session.captcha;
     delete session.captcha;
 
-    const user = await this.userService.login(loginUser, captcha);
+    const user = await this.authService.login(loginUser, captcha);
 
     delete session.captcha;
 
@@ -82,7 +91,7 @@ export class UserController {
         throw new UnauthorizedException('refresh_token 失效');
       }
 
-      const user = await this.userService.findById(data.userId);
+      const user = await this.authService.findById(data.userId);
 
       if (!user) {
         throw new UnauthorizedException('用户信息错误!');
@@ -113,20 +122,5 @@ export class UserController {
     } catch (error) {
       throw new UnauthorizedException('token 已失效，请重新登录');
     }
-  }
-
-  @Get('captcha')
-  @NoHaveLogin()
-  async captcha(@Session() session: Record<string, any>, @Res() res: Response) {
-    const captcha = svgCaptcha.createMathExpr({
-      size: 10,
-      background: '#1e80ff',
-      color: true,
-      noise: 3,
-    });
-    session.captcha = captcha.text;
-    res.type('svg');
-    res.send(captcha.data);
-    return res;
   }
 }
