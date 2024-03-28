@@ -31,8 +31,17 @@ export class UserController {
 
   @Post('login')
   @NoHaveLogin()
-  async login(@Body() loginUser: UserLoginDto) {
-    const user = await this.userService.login(loginUser);
+  async login(
+    @Body() loginUser: UserLoginDto,
+    @Session() session: Record<string, any>,
+  ) {
+    // 获取session中的验证码 然后删除它
+    const captcha = session.captcha;
+    delete session.captcha;
+
+    const user = await this.userService.login(loginUser, captcha);
+
+    delete session.captcha;
 
     const access_token = this.jwtService.sign(
       {
@@ -111,6 +120,9 @@ export class UserController {
   async captcha(@Session() session: Record<string, any>, @Res() res: Response) {
     const captcha = svgCaptcha.createMathExpr({
       size: 10,
+      background: '#1e80ff',
+      color: true,
+      noise: 3,
     });
     session.captcha = captcha.text;
     res.type('svg');

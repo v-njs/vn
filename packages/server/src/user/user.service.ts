@@ -93,7 +93,11 @@ export class UserService {
     return await this.entityManager.findOneBy(User, { id });
   }
 
-  async login(loginUserDto: UserLoginDto) {
+  async login(loginUserDto: UserLoginDto, captcha: string) {
+    if (loginUserDto.captcha !== captcha) {
+      throw new HttpException('验证码错误', HttpStatus.ACCEPTED);
+    }
+
     const user = await this.entityManager.findOne(User, {
       where: {
         username: loginUserDto.username,

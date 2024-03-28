@@ -8,4 +8,8 @@ export class UserLoginDto {
   @IsNotEmpty()
   @Length(1, 50)
   password: string;
+
+  @IsNotEmpty()
+  @Length(1, 10)
+  captcha: string;
 }
